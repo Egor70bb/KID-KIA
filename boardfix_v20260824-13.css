@@ -1,0 +1,116 @@
+/* KID-KIA board geometry fix — v20260824-13
+   Right 1–8 strip is now a GRID item aligned only to the board row,
+   so it matches the chessboard height exactly.
+*/
+
+.board-wrap{
+  position: relative !important;
+  width: 84% !important;
+  max-width: 470px !important;
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) 23px !important;
+  grid-template-rows: 23px auto auto !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  align-items: stretch !important;
+  box-sizing: border-box !important;
+}
+
+.board{
+  grid-column: 1 !important;
+  grid-row: 2 !important;
+  width: 100% !important;
+  aspect-ratio: 1 / 1 !important;
+  display: grid !important;
+  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+  grid-template-rows: repeat(8, minmax(0, 1fr)) !important;
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+}
+
+.board > .square{
+  width: auto !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.board-files-top{
+  position: static !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  height: 23px !important;
+  display: grid !important;
+  grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
+  align-items: center !important;
+  background: #202520 !important;
+  color: #fff !important;
+  font: 900 11px/1 Arial, sans-serif !important;
+  text-transform: lowercase !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+
+.board-files-top span{
+  display: block !important;
+  min-width: 0 !important;
+  text-align: center !important;
+}
+
+.board-ranks-right{
+  position: static !important;
+  grid-column: 2 !important;
+  grid-row: 2 !important;
+  width: 23px !important;
+  height: auto !important;
+  display: grid !important;
+  grid-template-rows: repeat(8, minmax(0, 1fr)) !important;
+  align-items: stretch !important;
+  justify-items: stretch !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+  background: #202520 !important;
+  color: #fff !important;
+  font: 900 11px/1 Arial, sans-serif !important;
+  pointer-events: none !important;
+  box-sizing: border-box !important;
+}
+
+.board-ranks-right span{
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 0 !important;
+  height: 100% !important;
+}
+
+.orientation{
+  grid-column: 1 / span 2 !important;
+  grid-row: 3 !important;
+  margin-top: 6px !important;
+}
+
+/* Laptop / tablet */
+@media(max-width:850px){
+  .board-wrap{
+    width: 88% !important;
+    max-width: 535px !important;
+    grid-template-columns: minmax(0, 1fr) 24px !important;
+    grid-template-rows: 24px auto auto !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .board-files-top{
+    height: 24px !important;
+  }
+
+  .board-ranks-right{
+    width: 24px !important;
+  }
+}
