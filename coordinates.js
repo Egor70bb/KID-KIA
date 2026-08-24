@@ -4,52 +4,31 @@
   const filesBlack=['h','g','f','e','d','c','b','a'];
   const ranksBlack=['1','2','3','4','5','6','7','8'];
 
-  function addCoord(square,text,styles){
-    const span=document.createElement('span');
-    span.className='coord';
-    span.textContent=text;
-    Object.assign(span.style,styles);
-    square.appendChild(span);
-  }
-
-  function applyCoordinates(){
+  function ensureBorderCoordinates(){
     const board=document.getElementById('board');
     if(!board)return;
-    const squares=[...board.children];
-    if(squares.length!==64)return;
-    squares.forEach(s=>s.querySelectorAll('.coord').forEach(c=>c.remove()));
+    const wrap=board.parentElement;
+    if(!wrap)return;
+    wrap.querySelectorAll('.board-files-top,.board-ranks-right').forEach(el=>el.remove());
 
     const blackBottom=(document.querySelector('.orientation')?.textContent||'').includes('NERO');
     const files=blackBottom?filesBlack:filesWhite;
     const ranks=blackBottom?ranksBlack:ranksWhite;
 
-    squares.forEach((sq,i)=>{
-      const row=Math.floor(i/8),col=i%8;
-      if(row===0){
-        addCoord(sq,files[col],{top:'3px',left:'50%',transform:'translateX(-50%)'});
-      }
-      if(row===7){
-        addCoord(sq,files[col],{bottom:'3px',left:'50%',transform:'translateX(-50%)'});
-      }
-      if(col===0){
-        addCoord(sq,ranks[row],{left:'4px',top:'50%',transform:'translateY(-50%)'});
-      }
-      if(col===7){
-        addCoord(sq,ranks[row],{right:'4px',top:'50%',transform:'translateY(-50%)'});
-      }
-    });
+    const top=document.createElement('div');
+    top.className='board-files-top';
+    files.forEach(file=>{const s=document.createElement('span');s.textContent=file;top.appendChild(s)});
+
+    const right=document.createElement('div');
+    right.className='board-ranks-right';
+    ranks.forEach(rank=>{const s=document.createElement('span');s.textContent=rank;right.appendChild(s)});
+
+    wrap.appendChild(top);
+    wrap.appendChild(right);
   }
 
-  const originalRenderBoard=window.renderBoard;
-  if(typeof originalRenderBoard==='function'){
-    window.renderBoard=function(fen){
-      originalRenderBoard(fen);
-      applyCoordinates();
-    };
-  }
-
-  const observer=new MutationObserver(()=>applyCoordinates());
+  const observer=new MutationObserver(()=>ensureBorderCoordinates());
   const board=document.getElementById('board');
   if(board)observer.observe(board,{childList:true});
-  applyCoordinates();
+  ensureBorderCoordinates();
 })();
